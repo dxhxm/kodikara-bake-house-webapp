@@ -4,11 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ShopDTO {
+public class StockEntryDTO {
+    private String productId;
     private Integer shopId;
-    private String name;
-    private String location;
+    private LocalDate date;
+    private Integer morningQuantity;
+    private Integer closingQuantity;
 }

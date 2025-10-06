@@ -20,6 +20,18 @@ public class UserService {
         if (user == null) {
             return new LoginResponse(false, "User not found");
         }
+
+        // IMPORTANT: Passwords should be hashed in a real application!
+        // This is a temporary, insecure check.
+        if (user.getPassword().equals(loginRequest.getPassword())) {
+            UserDTO userDTO = toDto(user);
+            return new LoginResponse(true, "Login successful", userDTO);
+        } else {
+            return new LoginResponse(false, "Incorrect password");
+        }
     }
 
+    private UserDTO toDto(User user) {
+        return new UserDTO(user.getUserId(), user.getUsername(), user.getRole());
+    }
 }
