@@ -1,5 +1,6 @@
 package com.example.KodikaraGroupBusinessManagementApplication.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -8,13 +9,28 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "fair_delivery_item")
 public class FairDeliveryItem {
+
     @Id
+    @Column(name = "fitem_id", length = 10, columnDefinition = "CHAR(10)")
     private String itemId;
+
+    @Column(name = "delivery_id", length = 10, columnDefinition = "CHAR(10)")
     private String deliveryId;
+
+    @Column(name = "pro_id", length = 7, columnDefinition = "CHAR(7)")
     private String proId;
+
+    @Column(name = "qty_sent")
     private Integer qtySent;
+
+    @Column(name = "unit_price", precision = 10, scale = 2)
     private BigDecimal unitPrice;
+
+    @Column(name = "qty_remaining")
     private Integer qtyRemaining;
+
+    public FairDeliveryItem() {
+    }
 
     public String getItemId() {
         return itemId;

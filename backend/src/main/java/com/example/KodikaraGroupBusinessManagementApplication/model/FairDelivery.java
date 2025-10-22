@@ -1,5 +1,6 @@
 package com.example.KodikaraGroupBusinessManagementApplication.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -10,11 +11,17 @@ import java.time.LocalDate;
 @Table(name = "fair_delivery")
 public class FairDelivery {
     @Id
+    @Column(name = "delivery_id", length = 10, columnDefinition = "CHAR(10)")
     private String deliveryId;
+    @Column(name = "vehicle_id", length = 10, columnDefinition = "CHAR(10)")
     private String vehicleId;
+    @Column(name = "driver_id", length = 10, columnDefinition = "CHAR(10)")
     private String driverId;
+    @Column(name = "fair_name", length = 100)
     private String fairName;
+    @Column(name = "delivery_date")
     private LocalDate deliveryDate;
+    @Column(name = "dstatus", length = 20)
     private String status;
 
     public String getDeliveryId() {

@@ -1,16 +1,25 @@
 package com.example.KodikaraGroupBusinessManagementApplication.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
+@Getter
+@Setter
 @Entity
-@Table(name = "Sale")
+@Table(name = "sale") // 1. Fixed: Table name is lowercase
+@NoArgsConstructor
+@AllArgsConstructor
 public class Sale {
+
     @Id
-    @Column(name = "sale_id", length=10)
+    @Column(name = "sale_id", columnDefinition = "CHAR(10)")
     private String saleId;
 
     @ManyToOne
@@ -25,66 +34,24 @@ public class Sale {
     @JoinColumn(name="user_id")
     private User user;
 
-    @Column(name="date")
-    private LocalDate date;
+    // 2. ADDED: This field was missing
+    @ManyToOne
+    @JoinColumn(name="driver_id")
+    private Driver driver;
+
+    // 3. REMOVED @CreationTimestamp. This is a regular date field.
+    @Column(name = "sale_date")
+    private LocalDate saleDate;
+
     @Column(name="tot_amount",precision = 10,scale = 2,nullable = false)
     private BigDecimal totalAmount;
+
     @Column(name = "payment_method", length = 20, nullable = false)
     private String paymentMethod;
+
     @OneToMany(mappedBy = "sale",cascade = CascadeType.ALL,orphanRemoval = true)
     private List<SaleDetail> saleDetails;
 
-    public String getSaleId() {
-        return saleId;
-    }
-    public void setSaleId(String saleId) {
-        this.saleId = saleId;
-    }
-    public Shop getShop() {
-        return shop;
-    }
-
-    public void setShop(Shop shop) {
-        this.shop = shop;
-    }
-
-    public Vehicle getVehicle() {
-        return vehicle;
-    }
-    public void setVehicle(Vehicle vehicle) {
-        this.vehicle = vehicle;
-    }
-    public User getUser() {
-        return user;
-    }
-    public void setUser(User user) {
-        this.user = user;
-    }
-    public LocalDate getDate() {
-        return date;
-    }
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-    public BigDecimal getTotalAmount() {
-        return totalAmount;
-    }
-    public void setTotalAmount(BigDecimal totalAmount) {
-        this.totalAmount = totalAmount;
-    }
-    public String getPaymentMethod() {
-        return paymentMethod;
-    }
-    public void setPaymentMethod(String paymentMethod) {
-        this.paymentMethod = paymentMethod;
-    }
-    public List<SaleDetail> getSaleDetails() {
-        return saleDetails;
-    }
-    public void setSaleDetails(List<SaleDetail> saleDetails) {
-        this.saleDetails = saleDetails;
-    }
-
-
-
+    // 4. REMOVED all the broken/duplicate code and manual getters/setters.
+    // Lombok's @Getter and @Setter handle all of this.
 }

@@ -1,7 +1,7 @@
 package com.example.KodikaraGroupBusinessManagementApplication.Controller;
 
 import com.example.KodikaraGroupBusinessManagementApplication.DTO.FairDeliveryRequestDTO;
-import com.example.KodikaraGroupBusinessManagementApplication.model.FairDelivery;
+import com.example.KodikaraGroupBusinessManagementApplication.DTO.FairDeliveryResponseDTO;
 import com.example.KodikaraGroupBusinessManagementApplication.services.FairDeliveryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,9 +16,9 @@ public class FairDeliveryController {
     public FairDeliveryController(FairDeliveryService service){
         this.service = service;
     }
-    @PostMapping
-    public ResponseEntity<?> create(@RequestBody FairDeliveryRequestDTO dto){
-        service.createDelivery(dto);
-        return ResponseEntity.ok("Fair Delivery Created");
+    @PostMapping // Simplified mapping
+    public ResponseEntity<FairDeliveryResponseDTO> create(@RequestBody FairDeliveryRequestDTO dto){
+        FairDeliveryResponseDTO createdDelivery = service.createDelivery(dto);
+        return ResponseEntity.status(201).body(createdDelivery);
     }
 }
