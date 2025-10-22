@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class DailyReportDTO {
   private LocalDate localDate;
-  private String cutomerName;
+  private String customerName;
   private Double totalIncome;
   private Long totalProductsSold;
 

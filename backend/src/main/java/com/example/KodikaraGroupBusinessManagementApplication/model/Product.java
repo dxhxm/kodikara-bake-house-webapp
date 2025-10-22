@@ -11,11 +11,5 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "product")
 public class Product {
-    @Id
-    private String proId;
-    private String name;
-    private String category;
-    private BigDecimal unitPrice;
-    private String status;
 
 }

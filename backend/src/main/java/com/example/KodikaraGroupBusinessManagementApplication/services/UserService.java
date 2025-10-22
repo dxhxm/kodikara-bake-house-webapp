@@ -20,6 +20,7 @@ public class UserService {
         if (user == null) {
             return new LoginResponse(false, "User not found");
         }
+        return null;
     }
 
 }
