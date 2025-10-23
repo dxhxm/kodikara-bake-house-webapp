@@ -1,0 +1,6 @@
+# --- Global ignore overrides (keep existing .gitignore files) ---
+**/node_modules/
+**/build/
+**/dist/
+**/.idea/
+**/target/
