@@ -8,7 +8,6 @@ public class ProductDTO {
     private String name;
     private String category;
     private BigDecimal unitPrice;
-
     // --- getters & setters ---
     public String getProId() {
         return proId;
@@ -38,3 +37,4 @@ public class ProductDTO {
         this.unitPrice = unitPrice;
     }
 }
+

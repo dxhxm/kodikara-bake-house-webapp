@@ -1,5 +1,7 @@
 package com.example.KodikaraGroupBusinessManagementApplication.model;
 
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -10,54 +12,36 @@ import java.math.BigDecimal;
 public class Product {
 
     @Id
+    @Column(name="pro_id",columnDefinition = "CHAR(7)")
     private String proId;
-
+    @Column(name="name",length = 15, nullable = false)
     private String name;
+    @Column(name="category",length = 20, nullable = false)
     private String category;
+    @Column(name="unit_price",precision=10,scale = 2, nullable = false)
     private BigDecimal unitPrice;
-    private String status;      // keep for now (teammates may use it)
-    private boolean active = true; // soft delete flag we added
+    @Column(name="status",length = 15, nullable = false)
+    private String status;
 
-    // ---- getters & setters ----
-    public String getProId() {
-        return proId;
-    }
-    public void setProId(String proId) {
-        this.proId = proId;
-    }
-
-    public String getName() {
+   public String getName() {
         return name;
     }
     public void setName(String name) {
         this.name = name;
     }
 
-    public String getCategory() {
-        return category;
-    }
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public BigDecimal getUnitPrice() {
-        return unitPrice;
-    }
-    public void setUnitPrice(BigDecimal unitPrice) {
-        this.unitPrice = unitPrice;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-    public void setActive(boolean active) {
-        this.active = active;
-    }
 }
+
+
+
+
+
+
+//CREATE TABLE product (
+//        pro_id CHAR (7) NOT NULL,
+//name VARCHAR(15) NOT NULL,
+//category VARCHAR(20) ,
+//unit_price DECIMAL(10,2) NOT NULL,
+//status VARCHAR(15) NOT NULL,
+//PRIMARY KEY (pro_id)
+//);
