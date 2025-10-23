@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from 'react';
 
-const ProductFormModal = ({ show, onHide, onSave, product, categories }) => {
+const ProductFormModal = ({ show, onHide, onSave, product, newProductId, categories }) => {
   const [formData, setFormData] = useState({});
 
   useEffect(() => {
-    // Ensure a default category is selected if none is provided
-    setFormData(product || { proId: '', name: '', category: categories[0] || '', unitPrice: '' });
-  }, [product, categories]);
+    // If product is provided, it's edit mode. Otherwise, it's add mode.
+    // In add mode, use newProductId if available.
+    setFormData(product || { 
+      proId: newProductId || '', 
+      name: '', 
+      category: categories[0] || '', 
+      unitPrice: 0 
+    });
+  }, [product, newProductId, categories]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,19 +26,30 @@ const ProductFormModal = ({ show, onHide, onSave, product, categories }) => {
 
   if (!show) return null;
 
+  const isAddMode = !product || !product.proId; // True if no existing product or no proId
+
   return (
     <div className="modal show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
       <div className="modal-dialog">
         <div className="modal-content">
           <form onSubmit={handleSubmit}>
             <div className="modal-header">
-              <h5 className="modal-title">{product ? 'Edit Product' : 'Add Product'}</h5>
+              <h5 className="modal-title">{isAddMode ? 'Add Product' : 'Edit Product'}</h5>
               <button type="button" className="btn-close" onClick={onHide}></button>
             </div>
             <div className="modal-body">
               <div className="mb-3">
                 <label htmlFor="proId" className="form-label">Product ID</label>
-                <input type="text" className="form-control" id="proId" name="proId" value={formData.proId || ''} onChange={handleChange} disabled={!!product} required />
+                <input 
+                  type="text" 
+                  className="form-control" 
+                  id="proId" 
+                  name="proId" 
+                  value={formData.proId || ''} 
+                  onChange={handleChange} 
+                  disabled={isAddMode || !!(product && product.proId)} // Disable if adding or if editing an existing product
+                  required 
+                />
               </div>
               <div className="mb-3">
                 <label htmlFor="name" className="form-label">Name</label>

@@ -74,18 +74,27 @@ const StockManagement = () => {
     }
   }, [selectedShop, date]);
 
+  const [searchTerm, setSearchTerm] = useState('');
+
   const handleMorningChange = (productId, value) => {
-    setStockData(prev => ({
-      ...prev,
-      [productId]: { ...prev[productId], morning: parseInt(value) || 0 },
-    }));
+    const intValue = parseInt(value) || 0;
+    if (intValue >= 0) {
+      setStockData(prev => ({
+        ...prev,
+        [productId]: { ...prev[productId], morning: intValue },
+      }));
+    }
   };
 
   const handleClosingChange = (productId, value) => {
-    setStockData(prev => ({
-      ...prev,
-      [productId]: { ...prev[productId], closing: parseInt(value) || 0 },
-    }));
+    const intValue = parseInt(value) || 0;
+    const morningStock = stockData[productId]?.morning || 0;
+    if (intValue >= 0 && intValue <= morningStock) {
+      setStockData(prev => ({
+        ...prev,
+        [productId]: { ...prev[productId], closing: intValue },
+      }));
+    }
   };
 
   const handleSaveStock = async () => {
@@ -114,6 +123,11 @@ const StockManagement = () => {
       setLoading(false);
     }
   };
+
+  const filteredProducts = products.filter(product =>
+    (product.name && product.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    (product.category && product.category.toLowerCase().includes(searchTerm.toLowerCase()))
+  );
 
   if (loading) return <p className="container mt-4">Loading stock management data...</p>;
   if (error) return <div className="alert alert-danger container mt-4">Error: {error}</div>;
@@ -151,9 +165,19 @@ const StockManagement = () => {
         </div>
       </div>
 
+      <div className="mb-3">
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Search by name or category..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
+
       <h3 className="mt-4">Daily Stock Report for {shops.find(s => s.shopId === selectedShop)?.name} on {date}</h3>
       
-      {products.length === 0 ? (
+      {filteredProducts.length === 0 ? (
         <p>No products available to manage stock.</p>
       ) : (
         <table className="table table-striped table-hover">
@@ -165,11 +189,10 @@ const StockManagement = () => {
               <th>Closing Stock</th>
               <th>Stock Sold</th>
               <th>Income</th>
-              <th>Remaining Stock</th>
             </tr>
           </thead>
           <tbody>
-            {products.map(product => {
+            {filteredProducts.map(product => {
               const itemReport = report.find(r => r.productId === product.proId) || {};
               const morning = stockData[product.proId]?.morning || itemReport.morningQuantity || 0;
               const closing = stockData[product.proId]?.closing || itemReport.closingQuantity || 0;
@@ -199,7 +222,6 @@ const StockManagement = () => {
                   </td>
                   <td>{stockSold}</td>
                   <td>LKR {income.toFixed(2)}</td>
-                  <td>{remaining}</td>
                 </tr>
               );
             })}

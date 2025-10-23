@@ -11,4 +11,6 @@ public class ShopDTO {
     private Integer shopId;
     private String name;
     private String location;
+    private String contactDetails;
+    private String ownerName;
 }

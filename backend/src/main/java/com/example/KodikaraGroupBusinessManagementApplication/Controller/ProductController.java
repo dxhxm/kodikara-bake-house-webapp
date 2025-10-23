@@ -41,4 +41,9 @@ public class ProductController {
     public void softDelete(@PathVariable String id) {
         service.softDelete(id);
     }
+
+    @GetMapping("/nextId")
+    public String getNextProductId() {
+        return service.getNextProductId();
+    }
 }

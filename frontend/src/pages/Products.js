@@ -3,20 +3,19 @@ import http from '../api/http';
 import ProductTable from '../components/ProductTable';
 import ProductFormModal from '../components/ProductFormModal';
 import DeleteConfirmationModal from '../components/DeleteConfirmationModal';
-// CategoryManagementModal is no longer imported
 
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  // Hardcoded categories as requested
+  const [searchTerm, setSearchTerm] = useState('');
   const categories = ['Buns', 'Pastries', 'Short Eats', 'Breads', 'Sandwiches', 'Biscuits', 'Sweets', 'Beverages', 'Cakes'];
 
   // State for modals
   const [showFormModal, setShowFormModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  // showCategoryManagementModal is no longer needed
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [newProductId, setNewProductId] = useState(null); // New state for generated ID
 
   const fetchProducts = async () => {
     try {
@@ -37,14 +36,17 @@ const Products = () => {
 
   const handleSave = async (productData) => {
     try {
-      if (selectedProduct) {
+      if (selectedProduct && selectedProduct.proId) {
+        // Update existing product
         await http.put(`/api/products/${selectedProduct.proId}`, productData);
       } else {
-        await http.post('/api/products', productData);
+        // Create new product (use newProductId if available, otherwise from form)
+        await http.post('/api/products', { ...productData, proId: newProductId || productData.proId });
       }
       setShowFormModal(false);
       setSelectedProduct(null);
-      fetchProducts();
+      setNewProductId(null); // Clear generated ID
+      fetchProducts(); // Refresh the list
     } catch (err) {
       setError(err.message || 'Failed to save product.');
     }
@@ -56,7 +58,7 @@ const Products = () => {
       await http.delete(`/api/products/${selectedProduct.proId}`);
       setShowDeleteModal(false);
       setSelectedProduct(null);
-      fetchProducts();
+      fetchProducts(); // Refresh the list
     } catch (err) {
       setError(err.message || 'Failed to delete product.');
     }
@@ -65,6 +67,7 @@ const Products = () => {
   // Modal handlers
   const handleEdit = (product) => {
     setSelectedProduct(product);
+    setNewProductId(null); // Ensure no new ID is active when editing
     setShowFormModal(true);
   };
 
@@ -73,21 +76,40 @@ const Products = () => {
     setShowDeleteModal(true);
   };
 
-  const handleAddProductClick = () => {
-    setSelectedProduct(null);
-    setShowFormModal(true);
+  const handleAddProductClick = async () => {
+    try {
+      const response = await http.get('/api/products/nextId');
+      const nextProId = response.data;
+      setNewProductId(nextProId); // Set the generated ID
+      setSelectedProduct(null); // Ensure it's add mode
+      setShowFormModal(true);
+    } catch (err) {
+      setError(err.message || 'Failed to generate new product ID.');
+    }
   };
 
-  // handleCategoryManagementClick is no longer needed
+  const filteredProducts = products.filter(product =>
+    (product.name && product.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    (product.category && product.category.toLowerCase().includes(searchTerm.toLowerCase()))
+  );
 
   return (
     <div className="container mt-4">
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h2>Product Management</h2>
         <div>
-          {/* Edit Categories button removed */}
           <button className="btn btn-primary" onClick={handleAddProductClick}>Add Product</button>
         </div>
+      </div>
+
+      <div className="mb-3">
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Search by name or category..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
       </div>
 
       {error && <div className="alert alert-danger">Error: {error}</div>}
@@ -95,14 +117,27 @@ const Products = () => {
       {loading ? (
         <p>Loading products...</p>
       ) : (
-        <ProductTable products={products} onEdit={handleEdit} onDelete={handleDeleteClick} />
+        <>
+          {filteredProducts.length > 0 ? (
+            <ProductTable products={filteredProducts} onEdit={handleEdit} onDelete={handleDeleteClick} />
+          ) : (
+            <div className="text-center mt-4">
+              <p>No products match your search.</p>
+            </div>
+          )}
+        </>
       )}
 
       <ProductFormModal 
         show={showFormModal} 
-        onHide={() => setShowFormModal(false)} 
+        onHide={() => {
+          setShowFormModal(false);
+          setSelectedProduct(null); // Clear selected product on hide
+          setNewProductId(null); // Clear generated ID on hide
+        }}
         onSave={handleSave} 
         product={selectedProduct} 
+        newProductId={newProductId} // Pass newProductId
         categories={categories} // Pass hardcoded categories to the form
       />
 
@@ -112,8 +147,6 @@ const Products = () => {
         onConfirm={handleDelete} 
         product={selectedProduct} 
       />
-
-      {/* CategoryManagementModal is no longer rendered */}
     </div>
   );
 };

@@ -9,4 +9,5 @@ public interface ProductService {
     ProductDTO get(String id);
     List<ProductDTO> listActive();
     void softDelete(String id);
+    String getNextProductId();
 }

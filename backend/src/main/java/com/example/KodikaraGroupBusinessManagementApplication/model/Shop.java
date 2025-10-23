@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name="Shop")
+@Table(name="shop")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -16,11 +16,18 @@ public class Shop {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "shop_id")
     private Integer shopId;
 
-    @Column(unique = true, nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "location", nullable = false)
     private String location;
 
+    @Column(name = "contact_details", nullable = false, length = 15)
+    private String contactDetails;
+
+    @Column(name = "owner_name", nullable = false)
+    private String ownerName;
 }

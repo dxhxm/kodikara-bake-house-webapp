@@ -6,6 +6,7 @@ import LoginPage from './pages/Loginpage';
 import Dashboard from './pages/Dashboard';
 import Products from './pages/Products';
 import StockManagement from './pages/StockManagement'; // New import
+import ShopRegistration from './pages/ShopRegistration';
 import './App.css';
 
 // A component to handle the root path
@@ -42,6 +43,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <StockManagement />
+              </ProtectedRoute>
+            }
+          />
+          <Route 
+            path="/shops" 
+            element={
+              <ProtectedRoute>
+                <ShopRegistration />
               </ProtectedRoute>
             }
           />

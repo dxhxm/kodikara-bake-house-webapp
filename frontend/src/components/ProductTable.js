@@ -1,4 +1,5 @@
 import React from 'react';
+import '../pages/dashboard.css';
 
 const ProductTable = ({ products, onEdit, onDelete }) => (
   <table className="table table-striped table-hover">

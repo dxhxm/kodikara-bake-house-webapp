@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -56,6 +57,22 @@ public class ProductServiceImpl implements ProductService {
         Product p = repo.findById(id).orElseThrow(() -> notFound(id));
         p.setActive(false);
         repo.save(p);
+    }
+
+    @Transactional(readOnly = true)
+    public String getNextProductId() {
+        String maxProId = repo.findMaxProId();
+        if (maxProId == null || maxProId.isEmpty()) {
+            return "P001";
+        }
+        // Extract the number part, increment, and format
+        try {
+            int num = Integer.parseInt(maxProId.substring(1)); // Assuming format PXXX
+            return String.format("P%03d", num + 1);
+        } catch (NumberFormatException e) {
+            // Fallback if ID format is unexpected
+            return "P001"; 
+        }
     }
 
     // -------- mapping helpers --------

@@ -1,0 +1,182 @@
+/* ===============================
+   KBH Brand Theme — Global Styles
+   Palette: Brown #5e2800, Red #ed1c24
+==================================*/
+
+/* ---- Brand Tokens ---- */
+:root {
+    --kbh-brown: #5e2800;
+    --kbh-brown-dark: #4b2000;
+    --kbh-red: #ed1c24;
+    --kbh-beige: #fff7f1;
+    --kbh-cream: #fdeee3;
+    --kbh-cream-stripe: #fff2e7;
+    --kbh-off-white: #fffaf5;
+    --kbh-text: #1c130f;
+    --kbh-muted: #8b6a58;
+}
+
+/* ---- Global Body & Background ---- */
+body {
+    background: linear-gradient(180deg, var(--kbh-beige), var(--kbh-cream));
+    color: var(--kbh-text);
+    min-height: 100vh;
+}
+
+/* ---- Containers & Cards ---- */
+.container, .card {
+    background-color: var(--kbh-off-white);
+    border-radius: 18px;
+    border: 1px solid var(--kbh-cream);
+    box-shadow: 0 10px 24px rgba(46, 16, 0, 0.08);
+}
+
+.card-body {
+    padding: 1.6rem;
+}
+
+/* ---- Typography ---- */
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    color: var(--kbh-brown);
+    font-weight: 800;
+}
+
+/* ---- Form Elements ---- */
+.form-control, .form-select {
+    background-color: var(--kbh-beige);
+    color: var(--kbh-brown);
+    border: 1px solid var(--kbh-brown);
+    border-radius: 12px;
+    padding: .6rem 1rem;
+}
+
+.form-control:focus, .form-select:focus {
+    background-color: var(--kbh-beige);
+    color: var(--kbh-brown);
+    border-color: var(--kbh-red);
+    box-shadow: 0 0 0 0.25rem rgba(237, 28, 36, 0.25);
+}
+
+/* ---- Buttons ---- */
+.btn {
+    border-radius: 12px !important;
+    border: 0 !important;
+    padding: .6rem 1rem !important;
+    font-weight: 700 !important;
+    color: white !important;
+    background: var(--kbh-brown) !important;
+    box-shadow: 0 10px 18px rgba(46, 16, 0, 0.15);
+    transition: transform 0.12s ease, background-color 0.12s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    background: var(--kbh-brown-dark) !important;
+}
+
+.btn-primary {
+    background: var(--kbh-red) !important;
+}
+
+.btn-primary:hover {
+    background: #F88379 !important;
+    filter: brightness(1.1);
+}
+
+/* ---- Tables ---- */
+.table {
+    background-color: var(--kbh-off-white);
+}
+
+.table thead th {
+    background-color: var(--kbh-cream);
+    color: var(--kbh-brown);
+    border-bottom: 2px solid var(--kbh-brown);
+}
+
+.table-striped tbody tr:nth-of-type(odd) td {
+    background-color: var(--kbh-cream-stripe);
+}
+
+.table tbody tr:hover td {
+    background-color: #fde5d8;
+}
+
+.table td, .table th {
+    vertical-align: middle;
+    border-top: 1px solid var(--kbh-cream);
+}
+
+/* ===== KBH dashboard cards (side-by-side tiles) ===== */
+.kbh-cards {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 40px;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.kbh-card {
+    flex: 0 1 30%;                   /* each ~third width */
+    text-decoration: none;
+    color: var(--kbh-text);
+    background: #fff;
+    border-radius: 22px;
+    border: 1px solid #f4e6dc;
+    padding: 32px 28px;
+    min-height: 230px;               /* taller look */
+    box-shadow: 0 18px 40px rgba(46,16,0,.15);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.kbh-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 28px 55px rgba(46,16,0,.18);
+}
+
+.kbh-card-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    margin-bottom: 0.4rem;
+    line-height: 1.3;
+}
+
+.kbh-card-text {
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+/* colored accents */
+.kbh-card.kbh-brown {
+    border-left: 10px solid var(--kbh-brown);
+}
+.kbh-card.kbh-brown .kbh-card-title {
+    color: var(--kbh-brown);
+}
+
+.kbh-card.kbh-red {
+    border-left: 10px solid var(--kbh-red);
+}
+.kbh-card.kbh-red .kbh-card-title {
+    color: var(--kbh-red);
+}
+
+/* responsive for smaller screens */
+@media (max-width: 768px) {
+    .kbh-cards {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .kbh-card {
+        width: 90%;
+        min-height: 200px;
+    }
+}
