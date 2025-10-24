@@ -6,7 +6,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
 
 @Entity
 @Table(name = "stock", uniqueConstraints = {
@@ -17,25 +21,22 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Stock {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer stockId;
-
-    @ManyToOne
-    @JoinColumn(name = "product_id", nullable = false)
-    private Product product;
-
-    @ManyToOne
-    @JoinColumn(name = "shop_id", nullable = false)
-    private Shop shop;
-
-    @Column(nullable = false)
-    private LocalDate date;
-
-    @Column(nullable = false)
-    private Integer morningQuantity;
-
-    @Column(nullable = false)
-    private Integer closingQuantity;
+    @Column(name = "stock_id",columnDefinition = "CHAR(7)")
+    private String stockId;
 }
+
+
+
+
+
+//CREATE TABLE stock(
+//        stock_id CHAR(7) NOT NULL,
+//pro_id CHAR(7),
+//date DATE,
+//open_qty INT,
+//qty_sold INT NOT NULL,
+//qty_returned INT,
+//closing_qty INT,
+//PRIMARY KEY(stock_id),
+//FOREIGN KEY(pro_id) REFERENCES product(pro_id) ON DELETE CASCADE);
