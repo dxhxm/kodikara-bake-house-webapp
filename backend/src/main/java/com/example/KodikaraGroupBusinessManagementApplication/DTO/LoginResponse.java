@@ -1,37 +1,31 @@
 package com.example.KodikaraGroupBusinessManagementApplication.DTO;
 
+// This file is REPLACED to return a secure JWT token and role
 public class LoginResponse {
-    private boolean success;
-    private String message;
-    private UserDTO user;
 
-    public LoginResponse(boolean success, String message) {
-        this.success = success;
-        this.message = message;
-    }
-    public LoginResponse(boolean success, String message, UserDTO user) {
-        this.success = success;
-        this.message = message;
-        this.user = user;
-    }
-    public boolean isSuccess() {
-        return success;
+    private String token;
+    private String role;
+
+    public LoginResponse(String token, String role) {
+        this.token = token;
+        this.role = role;
     }
 
-    public void setSuccess(boolean success) {
-        this.success = success;
+    // --- Getters and Setters ---
+
+    public String getToken() {
+        return token;
     }
 
-    public String getMessage() {
-        return message;
+    public void setToken(String token) {
+        this.token = token;
     }
-    public void setMessage(String message) {
-        this.message = message;
+
+    public String getRole() {
+        return role;
     }
-    public UserDTO getUser() {
-        return user;
-    }
-    public void setUser(UserDTO user) {
-        this.user = user;
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
