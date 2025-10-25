@@ -17,6 +17,9 @@ public class IdGenerator {
                 return "SHOP" + String.format("%06d", shopCounter.incrementAndGet());
             case "VEH":
                 return "VEH" + String.format("%06d", vehicleCounter.incrementAndGet());
+            // --- ADD THIS CASE ---
+            case "USER":
+                return "USER" + String.format("%06d", userCounter.incrementAndGet());
             default:
                 return prefix + String.format("%06d", System.currentTimeMillis() % 1000000);
         }
@@ -26,4 +29,7 @@ public class IdGenerator {
         return generate("SALE");
     }
 
+    public static String userId() {
+        return generate("USER");
+    }
 }

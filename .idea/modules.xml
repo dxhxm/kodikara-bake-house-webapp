@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/backend/KodikaraGroupBusinessManagementApplication.iml" filepath="$PROJECT_DIR$/backend/KodikaraGroupBusinessManagementApplication.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/kodikara-bake-house-webapp.iml" filepath="$PROJECT_DIR$/.idea/kodikara-bake-house-webapp.iml" />
     </modules>
   </component>
