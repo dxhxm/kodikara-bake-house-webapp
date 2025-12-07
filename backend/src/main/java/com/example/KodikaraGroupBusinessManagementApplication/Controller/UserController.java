@@ -35,18 +35,18 @@ public class UserController {
         this.userService = userService;
     }
 
-    // --- C (Create) ---
+    // Create User
     @PostMapping("/create")
     public ResponseEntity<User> createSalesman(@Valid @RequestBody UserDTO userDTO) {
         User createdSalesman = userService.createSalesman(userDTO);
         return new ResponseEntity<>(createdSalesman, HttpStatus.CREATED);
     }
 
-    // --- R (Read) - Get All Users ---
+    // Get All Users
     @GetMapping("/all")
     public ResponseEntity<List<User>> getAllSalesmen() { // Renamed from getAllSalesmen
 
-        // --- START: ADD LOGGING ---
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated() && !"anonymousUser".equals(authentication.getPrincipal())) {
             log.info("User {} is authenticated.", authentication.getName());
@@ -61,27 +61,33 @@ public class UserController {
         } else {
             log.warn("User is Anonymous or NOT authenticated!");
         }
-        // --- END: ADD LOGGING ---
+
 
         List<User> users = userService.getAllUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-    // --- R (Read) - Get One User by ID ---
+    // Get One User by ID
     @GetMapping("/{id}")
     public ResponseEntity<User> getSalesmanById(@PathVariable String id) {
         User user = userService.getUserById(id);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
+    // Get Users For Dropdown List
+    @GetMapping("/lookup")
+    public ResponseEntity<List<User>> getSalesmanLookup(){
+        List<User> salesman = userService.getUsersByRole("DATAENTRY");
+        return new ResponseEntity<>(salesman, HttpStatus.OK);
+    }
 
-    // --- U (Update) - Update a User ---
+    // Update a User
     @PutMapping("/{id}")
     public ResponseEntity<User> updateSalesman(@PathVariable String id, @Valid @RequestBody UserUpdateDTO userUpdateDTO) {
         User updatedUser = userService.updateUser(id, userUpdateDTO);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 
-    // --- D (Delete) - Delete a User ---
+    // Delete a User
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteSalesman(@PathVariable String id) {
         userService.deleteUser(id);

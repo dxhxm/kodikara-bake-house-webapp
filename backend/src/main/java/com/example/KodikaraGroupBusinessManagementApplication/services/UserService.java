@@ -25,7 +25,7 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    // --- C (Create Salesman) - Keep specific for now ---
+    // (Create Salesman)
     public User createSalesman(UserDTO userDTO) {
         if (userRepository.existsByUsername(userDTO.getUsername())) {
             throw new IllegalArgumentException("Username already registered");
@@ -38,18 +38,24 @@ public class UserService {
         return userRepository.save(newUser);
     }
 
-    // --- R (Read) - Get All Users ---
+    // Get All Users
     public List<User> getAllUsers() { // Renamed
         return userRepository.findAll();
     }
 
-    // --- R (Read) - Get One User by ID ---
+    // Get User By Role(For list down salesman)
+    public List<User> getUsersByRole(String role) {
+        return userRepository.findByRole(role);
+    }
+
+
+    //  Get One User by ID
     public User getUserById(String userId) { // Renamed
         return userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
     }
 
-    // --- U (Update) - Update User Details ---
+    // Update User Details
     public User updateUser(String userId, UserUpdateDTO userUpdateDTO) { // Renamed
         User userToUpdate = getUserById(userId);
 
@@ -67,7 +73,7 @@ public class UserService {
         return userRepository.save(userToUpdate);
     }
 
-    // --- D (Delete) - Delete a User ---
+    //  Delete a User
     public void deleteUser(String userId) { // Renamed
         if (!userRepository.existsById(userId)) {
             throw new ResourceNotFoundException("User not found with id: " + userId);
