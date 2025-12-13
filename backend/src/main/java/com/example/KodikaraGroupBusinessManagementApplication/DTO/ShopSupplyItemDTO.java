@@ -4,13 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ShopDTO {
+public class ShopSupplyItemDTO {
+    private String productId;
+    private String productName;
     private String shopId;
-    private String shopName;
-    private String ownerName;
-    private String contactNo;
-    private String address;
+    private BigDecimal price;
+    private int quantity;
 }
